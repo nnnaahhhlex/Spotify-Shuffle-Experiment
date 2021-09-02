@@ -11,7 +11,8 @@ from pprint import pprint
 
 SPOTIFY_GET_CURRENT_TRACK_URL = 'https://api.spotify.com/v1/me/player/currently-playing'
 SPOTIFY_NEXT_TRACK_URL = 'https://api.spotify.com/v1/me/player/next'
-ACCESS_TOKEN = 'BQDeX-RtxbqW1CqAgPKr-y4ukYA51ny7VJoS7hCaPWfJO_o9ijVtiG4HgG4k3FW0xeSmPjevBAKrG7NUDrMfMTfrz1Lkd4fgLIXQcDeTbw8b5BKTYrvSdGiJe5K0bkglGlqU0uktO62lF1Lg1uEuwMApzYWP'
+ACCESS_TOKEN = 'BQCI3O-LbZxaInSyZ2AQ9qokC-UR0OEHKxHRv5sM_lpprAtr0AQE_ZyBOAkW5F8CgBlG8AHpE2maoz6OX0GgnqNvomg_4x_f6gn7XTrDJm5HmGKJ8oC0kijxTY5hm7_gSiOPq7SnB-myWBkL7GonrJHe7n5H'
+MAX_VALUE = 1000
 
 #Will need to get a different access code 
 
@@ -50,15 +51,17 @@ def next_song(access_token):
 		}
 	)
 	print(response) # 204 means success
+
 	
 def initiate_csv():
-	file = open('Data.csv','w')
+	file = open('Data.csv','w', newline='')
 	csv_writer = csv.writer(file,delimiter = ',')
 	csv_writer.writerow(['Row Number','Artist Names','Track Names'])
 	file.close()
 
+
 def add_csv(current_track_info,row):
-	file = open('Data.csv','a')
+	file = open('Data.csv','a', newline='',encoding="utf-8")
 	csv_writer = csv.writer(file,delimiter = ',')
 	csv_writer.writerow([row,current_track_info['artists'],current_track_info['track_name']])
 	file.close()
@@ -69,7 +72,7 @@ def main():
 	initiate_csv()
 
 	current_track_id = None
-	for row in range(0,1000):
+	for row in range(0,MAX_VALUE):
 		current_track_info = get_current_track(ACCESS_TOKEN)
 		
 		if current_track_info['id'] != current_track_id:
