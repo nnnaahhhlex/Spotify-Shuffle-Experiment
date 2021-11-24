@@ -11,8 +11,8 @@ from pprint import pprint
 
 SPOTIFY_GET_CURRENT_TRACK_URL = 'https://api.spotify.com/v1/me/player/currently-playing'
 SPOTIFY_NEXT_TRACK_URL = 'https://api.spotify.com/v1/me/player/next'
-ACCESS_TOKEN = 'BQCI3O-LbZxaInSyZ2AQ9qokC-UR0OEHKxHRv5sM_lpprAtr0AQE_ZyBOAkW5F8CgBlG8AHpE2maoz6OX0GgnqNvomg_4x_f6gn7XTrDJm5HmGKJ8oC0kijxTY5hm7_gSiOPq7SnB-myWBkL7GonrJHe7n5H'
-MAX_VALUE = 1000
+ACCESS_TOKEN = 'BQCYzabyuFykT7FZtb6Qfk7C_3O_1a8stOmI0Xu7wlzzFgiyqCgFTcy05cKP9Scl-8ScNboIyHZeyi9c--qX9BQbTLaXq_RZZViSks_iFhvZ3YlqBHDSV27itqB6ug50zObkZL2lC4TkHavmuRopRujLbqsJ_lZPepn0_W47Bnzo99Apig'
+MAX_VALUE = 5000
 
 #Will need to get a different access code 
 
@@ -29,7 +29,7 @@ def get_current_track(access_token):
 	track_name = json_resp['item']['name']
 	artists = [artist for artist in json_resp['item']['artists']]
 
-	link = json_resp['item']['external_urls']['spotify']
+	#link = json_resp['item']['external_urls']['spotify']
 
 	artist_names = ', '.join([artist['name'] for artist in artists])
 
@@ -37,7 +37,7 @@ def get_current_track(access_token):
 		"id": track_id,
 		"track_name": track_name,
 		"artists": artist_names,
-		"link": link
+		#"link": link
 	}
 
 	return current_track_info
@@ -68,7 +68,7 @@ def add_csv(current_track_info,row):
 
 
 def main():
-	
+	counter = 0
 	initiate_csv()
 
 	current_track_id = None
@@ -86,6 +86,8 @@ def main():
 		
 		add_csv(current_track_info,row)
 		next_song(ACCESS_TOKEN)
+		counter += 1
+		print(counter)
 		time.sleep(1)        
 		
 		
